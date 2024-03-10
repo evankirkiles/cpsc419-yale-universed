@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Yale Vision — Yale through 3D scanning.",
   description:
     "Yale vision utilizes photogrammetry technology to create 3D models of Yale's spaces, allowing for a new way to explore and understand the campus.",
-  metadataBase: new URL(SITE_URL),
+  // metadataBase: new URL(SITE_URL || "http://localhost:3000"),
 };
 
 export const viewport: Viewport = {
