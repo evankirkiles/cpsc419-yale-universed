@@ -1,95 +1,124 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+/*
+ * page.tsx
+ * author: Evan Kirkiles
+ * created on Sun Mar 10 2024
+ * 2024 the nobot space
+ */
+import Balancer from "react-wrap-balancer";
+import s from "./Page.module.scss";
+import cx from "classnames";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <article className={s.container}>
+      <div className={cx(s.section, s.hero)}>
+        <div className={s.links}>
+          <hgroup>
+            <h1>Yale Vision</h1>
+            <Balancer>
+              <p>
+                Explore how other Yalies are effectively using their spaces
+                through the capabilities of photogrammetry.
+              </p>
+            </Balancer>
+          </hgroup>
+          <ul className={s.linkrow}>
+            <li>
+              <p>Colleges</p>
+              <ul>
+                <li>Benjamin Franklin</li>
+                <li>Jonathan Edwards</li>
+                <li>Timothy Dwight</li>
+                <li>Ezra Stiles</li>
+                <li>Saybrook</li>
+              </ul>
+            </li>
+            <li>
+              <p>&nbsp;</p>
+              <ul>
+                <li>Grace Hopper</li>
+                <li>Branford</li>
+                <li>Berkeley</li>
+                <li>Davenport</li>
+              </ul>
+            </li>
+            <li>
+              <p>&nbsp;</p>
+              <ul>
+                <li>Morse</li>
+                <li>Pierson</li>
+                <li>Silliman</li>
+                <li>Trumbull</li>
+              </ul>
+            </li>
+            <li>
+              <p>Off-Campus</p>
+              <ul>
+                <li>Dwight St.</li>
+                <li>Elm St.</li>
+                <li>Orange St.</li>
+              </ul>
+            </li>
+          </ul>
         </div>
+        <figure className={s.featured}>
+          <div>&nbsp;</div>
+          <figcaption>
+            <p>
+              <strong>Featured Space</strong>
+            </p>
+            <p>
+              Evan Kirkiles
+              <br />
+              Sim City Apartments
+              <br />
+              New Haven, CT 06511
+            </p>
+          </figcaption>
+        </figure>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
+      <section className={s.featureSection}>
+        <hgroup>
+          <h2>On-Campus</h2>
           <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
+            On campus, Yalies work within the framework of the dorm room—with
+            standardized furniture, walls, and apartment layouts, students
+            create unique spaces that reflect their personalities through
+            posters, tapestries, and small decorations.
           </p>
-        </a>
-      </div>
-    </main>
+        </hgroup>
+        <ul>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+        </ul>
+      </section>
+      <section className={s.featureSection}>
+        <hgroup>
+          <h2>Off-Campus</h2>
+          <p>
+            Off campus, students grapple with both the freedoms and drawbacks of
+            living outside of the Yale-provided ecosystem. With more space,
+            kitchens, specialized rooms, and more, students are free to furnish
+            and decorate their spaces as they wish.
+          </p>
+        </hgroup>
+        <ul>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+        </ul>
+      </section>
+    </article>
   );
 }

@@ -1,0 +1,38 @@
+/*
+ * Layout.module.scss
+ * Author: evan kirkiles
+ * Created On Sun Aug 27 2023
+ * 2023 Design at Yale 
+ */
+@import "@/styles/utils";
+
+.body {
+  display: grid;
+  grid-template:
+    "nav" auto
+    "main" auto
+    "footer" auto / 1fr;
+  inline-size: 100%;
+
+  & > nav,
+  & > main:not([data-type="sanity"]),
+  & > footer {
+    inline-size: calc(100%);
+  }
+
+  & > nav {
+    grid-area: nav;
+  }
+
+  & > main {
+    grid-area: main;
+    margin-block-start: calc(-1 * var(--header-height));
+    min-block-size: calc(100svh);
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > footer {
+    grid-area: footer;
+  }
+}

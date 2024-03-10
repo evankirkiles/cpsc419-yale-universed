@@ -1,0 +1,39 @@
+/*
+ * Nav.module.scss
+ * author: Evan Kirkiles
+ * created on Sun Mar 10 2024
+ * 2024 Yale CPSC 419 
+ */
+
+.container {
+  display: grid;
+  position: sticky;
+  inset-block-start: 0;
+  inline-size: 100%;
+  grid-template:
+    "head control" var(--header-height)
+    "links ." auto / 1fr auto;
+  padding-inline: var(--page-padding);
+  block-size: var(--header-height);
+  background: linear-gradient(to bottom, var(--color-bg), transparent);
+}
+
+.head {
+  grid-area: head;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+
+  & li {
+    margin: unset;
+
+    &:first-child {
+      font-weight: 700;
+    }
+  }
+}
+
+.burger {
+  transform: scale(1.5);
+  transform-origin: 50% 50%;
+}
