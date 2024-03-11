@@ -30,6 +30,11 @@ Powered by <strong>Three.js</strong> and <strong>Polycam</strong>, Yale Vision a
 <img width="28.5%" alt="image" src="https://github.com/evankirkiles/cpsc419-yale-universed/assets/30581915/0d32bcd5-0ece-4162-addb-3bbf3b54a292">
 </div>
 
+
+## Changelog
+
+MVP (March 10): Set up infrastructure for website, built style guide, created basic space to demonstrate capabilities. Space can be played at https://cpsc419-yale-universed.vercel.app/spaces/test.
+
 ## Features
 
 Todo.
