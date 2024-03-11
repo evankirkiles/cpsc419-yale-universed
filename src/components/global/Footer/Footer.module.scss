@@ -4,6 +4,7 @@
  * created on Sun Mar 10 2024
  * 2024 Yale CPSC 419 
  */
+@import "@/styles/utils";
 
 .footer {
   display: flex;
@@ -26,9 +27,13 @@
   margin-block-start: -1px;
 
   & h2 {
-    font-size: 7rem;
+    font-size: 3rem;
     letter-spacing: -0.01em;
     font-weight: 700;
     line-height: 0.9;
+
+    @include media("md") {
+      font-size: 7rem;
+    }
   }
 }

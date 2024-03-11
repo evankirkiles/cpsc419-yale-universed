@@ -4,6 +4,7 @@
  * created on Sun Mar 10 2024
  * 2024 Yale CPSC 419 
  */
+@import "@/styles/utils";
 
 .container {
   display: grid;
@@ -11,29 +12,60 @@
   inset-block-start: 0;
   inline-size: 100%;
   grid-template:
-    "head control" var(--header-height)
-    "links ." auto / 1fr auto;
+    "wordmark control" var(--header-height)
+    "head head" auto
+    "links links" auto / 1fr auto;
   padding-inline: var(--page-padding);
   block-size: var(--header-height);
   background: linear-gradient(to bottom, var(--color-bg), transparent);
+
+  &[data-expanded="true"] {
+    background-color: var(--color-bg);
+    block-size: auto;
+    padding-block-end: var(--page-padding);
+    border-block-end: 1px solid var(--color-fg);
+  }
+
+  @include media("md") {
+    grid-template:
+      "wordmark head control" var(--header-height)
+      "links links links" auto / auto 1fr auto;
+  }
+}
+
+.wordmark {
+  grid-area: wordmark;
+  display: flex;
+  align-items: center;
+  padding-inline-end: 1.5rem;
+  font-weight: 700;
+  inline-size: fit-content;
 }
 
 .head {
   grid-area: head;
-  display: flex;
+  display: none;
   gap: 1.5rem;
   align-items: center;
+  margin-block-start: -0.5rem;
+
+  .container[data-expanded="true"] & {
+    display: flex;
+  }
+
+  @include media("md") {
+    display: flex;
+    margin-block: unset;
+  }
 
   & li {
     margin: unset;
-
-    &:first-child {
-      font-weight: 700;
-    }
   }
 }
 
 .burger {
+  grid-area: control;
   transform: scale(1.5);
   transform-origin: 50% 50%;
+  cursor: pointer;
 }

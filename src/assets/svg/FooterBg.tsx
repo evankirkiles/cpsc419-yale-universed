@@ -29,29 +29,29 @@ export default function FooterBg({
       {...props}
     >
       {!disableTitle && <title>A skyline vector image</title>}
-      <g clip-path="url(#clip0_19_210)">
+      <g clipPath="url(#clip0_19_210)">
         <path
           d="M260.5 0C-27.1 0 -172.333 174.667 -209 262V890.5H1711.5C1721.67 634.333 1681.1 122 1437.5 122C1133 122 1193.5 366 852 360C510.5 354 620 0 260.5 0Z"
           data-bg="true"
-          vector-effect="non-scaling-stroke"
+          vectorEffect="non-scaling-stroke"
         />
         <path
           d="M32.5 352V107.5H169.5V229.75M169.5 352V229.75M169.5 229.75H265.5V352V154.5H392V289M392 352V289M392 289H507V83H669V368.5"
           stroke="currentColor"
-          stroke-width="5"
-          vector-effect="non-scaling-stroke"
+          strokeWidth="5"
+          vectorEffect="non-scaling-stroke"
         />
         <path
           d="M669 352V107.5H806V229.75M806 352V229.75M806 229.75H902V352V154.5H1028.5V289M1028.5 352V289M1028.5 289H1143.5V83H1305.5V368.5"
           stroke="currentColor"
-          stroke-width="5"
-          vector-effect="non-scaling-stroke"
+          strokeWidth="5"
+          vectorEffect="non-scaling-stroke"
         />
         <path
           d="M-538 331.114V-8.01751H-415.313V161.548M-415.313 331.114V161.548M-415.313 161.548H-329.343V331.114V57.1734H-216.06V243.73M-216.06 331.114V243.73M-216.06 243.73H-113.075V-42H32V354"
           stroke="currentColor"
-          stroke-width="5"
-          vector-effect="non-scaling-stroke"
+          strokeWidth="5"
+          vectorEffect="non-scaling-stroke"
         />
       </g>
       <defs>

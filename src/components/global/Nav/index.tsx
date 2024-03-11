@@ -9,17 +9,18 @@
 import Link from "next/link";
 import { TfiClose, TfiMenu } from "react-icons/tfi";
 import s from "./Nav.module.scss";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 export default function Nav() {
+  const id = useId();
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className={s.container} aria-label="Main">
+    <nav className={s.container} aria-label="Main" data-expanded={open} id={id}>
+      <Link href="/" className={s.wordmark}>
+        Yale Vision
+      </Link>
       <ul className={s.head}>
-        <li>
-          <Link href="/">Yale Vision</Link>
-        </li>
         <li>
           <Link href="/">Spaces</Link>
         </li>
@@ -35,6 +36,7 @@ export default function Nav() {
       </ul>
       <button
         aria-expanded={open}
+        aria-controls={id}
         aria-label="Open the menu"
         onClick={() => setOpen(!open)}
         className={s.burger}

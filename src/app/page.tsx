@@ -7,6 +7,7 @@
 import Balancer from "react-wrap-balancer";
 import s from "./Page.module.scss";
 import cx from "classnames";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -15,13 +16,16 @@ export default function Home() {
         <div className={s.links}>
           <hgroup>
             <h1>Yale Vision</h1>
-            <Balancer>
-              <p>
+            <p>
+              <Balancer>
                 Explore how other Yalies are effectively using their spaces
                 through the capabilities of photogrammetry.
-              </p>
-            </Balancer>
+              </Balancer>
+            </p>
           </hgroup>
+          <Link className={s.demo} href="/spaces/test">
+            Demo a Space
+          </Link>
           <ul className={s.linkrow}>
             <li>
               <p>Colleges</p>
