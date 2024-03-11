@@ -5,7 +5,9 @@
  * 2024 Yale CPSC 419
  */
 
-import Space from "@/components/page/Space";
+import dynamic from "next/dynamic";
+
+const Space = dynamic(() => import("@/components/page/Space"), { ssr: false });
 
 export default function SpaceTest() {
   return (

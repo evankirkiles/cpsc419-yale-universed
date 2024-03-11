@@ -18,6 +18,7 @@
   padding-inline: var(--page-padding);
   block-size: var(--header-height);
   background: linear-gradient(to bottom, var(--color-bg), transparent);
+  z-index: zIndex("high");
 
   &[data-expanded="true"] {
     background-color: var(--color-bg);
