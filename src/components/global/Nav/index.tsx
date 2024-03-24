@@ -9,11 +9,16 @@
 import Link from "next/link";
 import { TfiClose, TfiMenu } from "react-icons/tfi";
 import s from "./Nav.module.scss";
-import { useId, useState } from "react";
+import { PropsWithChildren, useEffect, useId, useState } from "react";
+import { usePathname } from "next/navigation";
 
-export default function Nav() {
+export default function Nav({ children }: PropsWithChildren) {
   const id = useId();
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <nav className={s.container} aria-label="Main" data-expanded={open} id={id}>
@@ -25,7 +30,7 @@ export default function Nav() {
           <Link href="/">Spaces</Link>
         </li>
         <li>
-          <Link href="/">Contests</Link>
+          <Link href="/">Users</Link>
         </li>
         <li>
           <Link href="/">About</Link>
@@ -34,15 +39,18 @@ export default function Nav() {
           <Link href="/">Upload</Link>
         </li>
       </ul>
-      <button
-        aria-expanded={open}
-        aria-controls={id}
-        aria-label="Open the menu"
-        onClick={() => setOpen(!open)}
-        className={s.burger}
-      >
-        {!open ? <TfiMenu /> : <TfiClose />}
-      </button>
+      <div className={s.control}>
+        {children}
+        <button
+          aria-expanded={open}
+          aria-controls={id}
+          aria-label="Open the menu"
+          onClick={() => setOpen(!open)}
+          className={s.burger}
+        >
+          {!open ? <TfiMenu /> : <TfiClose />}
+        </button>
+      </div>
     </nav>
   );
 }

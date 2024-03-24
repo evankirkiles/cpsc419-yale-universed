@@ -14,6 +14,8 @@ import s from "./Layout.module.scss";
 import Nav from "@/components/global/Nav";
 import Footer from "@/components/global/Footer";
 import Providers from "@/components/global/Providers";
+import { Suspense } from "react";
+import UserAvatar, { UserAvatarLoader } from "@/components/global/UserAvatar";
 
 // Base metadata for the entire app
 export const metadata: Metadata = {
@@ -43,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      // className={`${YaleNew.variable}`}
+      //  className={`${YaleNew.variable}`}
     >
       <head>
         <link
@@ -69,7 +71,11 @@ export default function RootLayout({
       </head>
       <body className={s.body}>
         <Providers>
-          <Nav />
+          <Nav>
+            <Suspense fallback={<UserAvatarLoader />}>
+              <UserAvatar />
+            </Suspense>
+          </Nav>
           <main>{children}</main>
           <Footer />
         </Providers>

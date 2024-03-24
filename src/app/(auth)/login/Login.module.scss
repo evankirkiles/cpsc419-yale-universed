@@ -1,0 +1,25 @@
+/*
+ * Login.module.scss
+ * author: Evan Kirkiles
+ * created on Sun Mar 24 2024
+ * 2024 Yale CPSC 419 
+ */
+
+.container {
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & h1 {
+    font-weight: 700;
+  }
+
+  & a {
+    display: block;
+    padding: 0.5rem 1rem;
+    border: 1px solid currentColor;
+  }
+}

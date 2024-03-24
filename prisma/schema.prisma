@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  // This is a netID returned from CAS authentication
+  id     String   @id
+  comments Comment[]
+  likes   Like[]
+  sessions Session[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Space {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String
+  comments Comment[]
+  likes Like[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  spaceId   Int
+  userId String
+  space    Space       @relation(fields: [spaceId], references: [id])
+  user    User       @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Like {
+  userId String
+  spaceId   Int
+  User   User @relation(fields: [userId], references: [id])
+  Space  Space  @relation(fields: [spaceId], references: [id])
+  createdAt DateTime @default(now())
+  @@id([spaceId, userId])
+}

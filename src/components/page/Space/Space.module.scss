@@ -27,7 +27,8 @@
     content: "";
     position: absolute;
     inset: 10px;
-    block-size: calc(100% - 20px);
+    inset-block-start: calc(var(--header-height) + 10px);
+    block-size: calc(100% - 20px - var(--header-height));
     inline-size: calc(100% - 20px);
     border: 1px solid var(--color-fg);
     pointer-events: none;
@@ -35,7 +36,7 @@
   }
 
   &:after {
-    content: "";
+    // content: "";
     position: absolute;
     inset: 0;
     block-size: 100%;

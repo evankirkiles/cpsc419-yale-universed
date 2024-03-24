@@ -9,6 +9,7 @@
 import FooterBg from "@/assets/svg/FooterBg";
 import s from "./Footer.module.scss";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 
 export default function Footer() {
   const footerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +31,32 @@ export default function Footer() {
     <footer className={s.footer} ref={footerRef}>
       <FooterBg />
       <div className={s.inner}>
-        <h2>Yale Vision</h2>
+        <div className={s.inner2}>
+          <section>
+            <h2>Yale Vision</h2>
+            <p>
+              Yale CPSC 419: Full Stack Web Programming
+              <br />
+              By Evan Kirkiles, Shan Ali, and Ngoc Bui
+            </p>
+          </section>
+          <section className={s.renav}>
+            <ul>
+              <li>
+                <Link href="/">Spaces</Link>
+              </li>
+              <li>
+                <Link href="/">Users</Link>
+              </li>
+              <li>
+                <Link href="/">About</Link>
+              </li>
+              <li>
+                <Link href="/">Upload</Link>
+              </li>
+            </ul>
+          </section>
+        </div>
       </div>
     </footer>
   );

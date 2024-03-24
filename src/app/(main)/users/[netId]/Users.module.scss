@@ -1,0 +1,25 @@
+/*
+ * Users.module.scss
+ * author: Evan Kirkiles
+ * created on Sun Mar 24 2024
+ * 2024 Yale CPSC 419 
+ */
+
+.container {
+  padding-block-start: calc(var(--header-height) + var(--page-padding));
+  inline-size: calc(100% - 2 * var(--page-padding));
+  max-inline-size: var(--max-total-width);
+  margin-inline: auto;
+
+  & h1 {
+    font-weight: 700;
+    font-size: 5rem;
+  }
+}
+
+.mainspace {
+  inline-size: 100%;
+  aspect-ratio: 16/9;
+  border: 1px solid currentColor;
+  margin-block-end: 1rem;
+}

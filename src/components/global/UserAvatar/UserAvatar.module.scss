@@ -1,0 +1,29 @@
+/*
+ * UserAvatar.module.scss
+ * author: Evan Kirkiles
+ * created on Sun Mar 24 2024
+ * 2024 Yale CPSC 419 
+ */
+
+.login {
+  block-size: 2rem;
+  padding-inline: 1rem;
+  border: 1px solid currentColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.avatar {
+  block-size: 2.2rem;
+  border: 1px solid currentColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  aspect-ratio: 1;
+  background-color: var(--color-bg);
+}

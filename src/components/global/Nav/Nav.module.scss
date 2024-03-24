@@ -23,8 +23,11 @@
   &[data-expanded="true"] {
     background-color: var(--color-bg);
     block-size: auto;
-    padding-block-end: var(--page-padding);
     border-block-end: 1px solid var(--color-fg);
+
+    @include media("sm-down") {
+      padding-block-end: var(--page-padding);
+    }
   }
 
   @include media("md") {
@@ -65,8 +68,14 @@
 }
 
 .burger {
-  grid-area: control;
   transform: scale(1.5);
   transform-origin: 50% 50%;
   cursor: pointer;
+}
+
+.control {
+  grid-area: control;
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
 }

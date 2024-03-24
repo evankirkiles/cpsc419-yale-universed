@@ -39,5 +39,5 @@ $colors-light: (
 
 // Returns a color from the above color map
 @function theme-color($color-name) {
-  @return var(--daylight-color-#{$color-name});
+  @return var(--color-#{$color-name});
 }
