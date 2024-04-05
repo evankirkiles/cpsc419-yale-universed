@@ -6,7 +6,7 @@
  *
  * Reference: https://github.com/iamtouha/next-lucia-auth/blob/main/src/lib/auth/validate-request.ts
  */
-
+"use server"
 import { lucia } from "@/lib/auth";
 import { Session, User } from "@prisma/client";
 import { cookies } from "next/headers";

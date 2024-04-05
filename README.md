@@ -47,6 +47,12 @@ Todo.
 
 To develop locally, clone this repository and hook it into the Supabase backend by setting your environment variables in `.env.local`.
 
+Create new database
+```bash
+pnpm prisma generate
+```
+Run project
+
 ```bash
 # clone the repository to your machine
 git clone git@github.com:evankirkiles/cpsc419-yale-universed.git
@@ -55,3 +61,12 @@ cd cpsc419-yale-universed/
 pnpm i
 pnpm dev
 ```
+
+migrate database before running 
+
+```bash
+pnpm prisma migrate dev
+```
+
+use react-hot-toast for notification
+use react-bootstrap for css form

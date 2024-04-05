@@ -8,6 +8,7 @@ import Balancer from "react-wrap-balancer";
 import s from "./Page.module.scss";
 import cx from "classnames";
 import Link from "next/link";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Home() {
   return (

@@ -16,6 +16,7 @@ import Footer from "@/components/global/Footer";
 import Providers from "@/components/global/Providers";
 import { Suspense } from "react";
 import UserAvatar, { UserAvatarLoader } from "@/components/global/UserAvatar";
+import { Toaster } from "react-hot-toast";
 
 // Base metadata for the entire app
 export const metadata: Metadata = {
@@ -79,6 +80,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </Providers>
+        <Toaster position="top-right" />
       </body>
     </html>
   );
