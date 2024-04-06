@@ -11,13 +11,27 @@ import { TfiClose, TfiMenu } from "react-icons/tfi";
 import s from "./Nav.module.scss";
 import { PropsWithChildren, useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
+import { validateRequest } from "@/lib/auth/validateRequest";
+
+interface User {
+  id: string;
+  fullName: string;
+  bio: string;
+  // other properties...
+}
 
 export default function Nav({ children }: PropsWithChildren) {
   const id = useId();
+  const [user, setUser] = useState<User | null>(null);;
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await validateRequest();
+      setUser(userData.user);
+    };
     setOpen(false);
+    fetchUser();
   }, [pathname]);
 
   return (
@@ -35,9 +49,11 @@ export default function Nav({ children }: PropsWithChildren) {
         <li>
           <Link href="/">About</Link>
         </li>
-        <li>
-          <Link href="/">Upload</Link>
-        </li>
+        {user && (
+          <li>
+              <Link href={`/upload/${user.id}`}>Upload</Link>
+          </li>
+        )}
       </ul>
       <div className={s.control}>
         {children}
