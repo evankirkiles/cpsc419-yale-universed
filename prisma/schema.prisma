@@ -18,6 +18,7 @@ model User {
   sessions Session[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  spaces      Space[] 
 }
 
 
@@ -33,6 +34,8 @@ model Space {
   id        Int      @id @default(autoincrement())
   name      String
   description String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
   comments Comment[]
   likes Like[]
   createdAt DateTime @default(now())
