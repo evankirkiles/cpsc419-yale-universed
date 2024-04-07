@@ -1,0 +1,124 @@
+@import "@/styles/utils";
+
+.container {
+  padding-block-start: calc(var(--header-height) + var(--page-padding));
+  inline-size: calc(100% - 2 * var(--page-padding));
+  max-inline-size: var(--max-total-width);
+  margin-inline: auto;
+  display: grid;
+
+  & hgroup {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: calc(1 * var(--page-padding));
+    align-items: flex-end;
+
+    & p {
+      font-size: 1.2em;
+      line-height: 1.2;
+      margin-block-end: 2rem;
+      max-inline-size: 25ch;
+
+      & a {
+        text-underline-offset: 0.15em;
+        text-decoration: underline;
+      }
+
+      @media screen and (max-width: 1024px) {
+        max-inline-size: unset;
+      }
+    }
+  }
+
+  & h1 {
+    margin-block-start: -0.2em;
+    font-weight: 700;
+    font-size: 5.2em;
+    line-height: 1.2;
+  }
+
+  & h2 {
+    margin-block-start: 0.5em;
+    font-weight: 700;
+    font-size: 2.5em;
+    line-height: 1.5;
+  }
+}
+
+.uploadForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-inline-size: 80ch;
+
+  & label {
+    font-weight: 700;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+  }
+
+  & input[type="text"] {
+    padding: 0.5em;
+    border-block-end: 1px solid var(--color-fg);
+    border-inline-start: 1px solid var(--color-fg);
+    color: var(--color-fg);
+  }
+
+  & button[type="submit"] {
+    border: 1px solid var(--color-fg);
+    border: 1px solid var(--color-fg);
+    padding: 0.5rem 1rem;
+  }
+}
+
+.formArea {
+  display: flex;
+  flex-direction: column;
+  column-gap: 1.5rem;
+  row-gap: 4rem;
+
+  @include media("lg") {
+    flex-direction: row;
+
+    & > * {
+      word-break: break-word;
+    }
+  }
+}
+
+.noAuth {
+  padding-block-start: calc(var(--header-height) + var(--page-padding));
+  inline-size: calc(100% - 2 * var(--page-padding));
+  max-inline-size: var(--max-total-width);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  block-size: 100svh;
+
+  & h1 {
+    margin-block-start: -0.2em;
+    font-weight: 700;
+    font-size: 5.2em;
+    line-height: 1.1;
+  }
+
+  & a {
+    display: block;
+    max-inline-size: 40ch;
+    background-color: var(--color-fg);
+    padding: 0.5em 1em;
+    text-align: center;
+    color: var(--color-bg);
+    margin-block-start: 1rem;
+
+    &:hover {
+      background-color: var(--color-bg2);
+      color: var(--color-fg);
+    }
+  }
+}

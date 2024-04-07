@@ -22,8 +22,13 @@ export default async function UserAvatar() {
       </Link>
     );
   return (
-    <Link href={`/users/${user.id}`} className={s.avatar}>
-      {user.id[0].toUpperCase()}
-    </Link>
+    <>
+      <Link href={"/upload"} className={s.login}>
+        Upload
+      </Link>
+      <Link href={`/users/${user.id}`} className={s.avatar}>
+        {user.id[0].toUpperCase()}
+      </Link>
+    </>
   );
 }

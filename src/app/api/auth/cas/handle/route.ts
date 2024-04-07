@@ -56,5 +56,5 @@ export async function GET(req: Request) {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect(redirects.afterLogin);
+  return redirect(target);
 }

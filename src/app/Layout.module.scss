@@ -6,6 +6,17 @@
  */
 @import "@/styles/utils";
 
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
 .body {
   display: grid;
   grid-template:
@@ -30,6 +41,10 @@
     min-block-size: calc(100svh);
     display: flex;
     flex-direction: column;
+
+    & > article {
+      animation: fade-up 0.3s ease-in-out;
+    }
   }
 
   & > footer {

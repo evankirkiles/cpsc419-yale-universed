@@ -9,6 +9,7 @@ import { validateRequest } from "@/lib/auth/validateRequest";
 import { redirects } from "@/lib/constants";
 import { redirect } from "next/navigation";
 import s from "./Login.module.scss";
+import { loginLink } from "@/lib/utils";
 
 export const metadata = {
   title: "Login",
@@ -22,9 +23,7 @@ export default async function LoginPage() {
     <section className={s.container}>
       <h1>Login with CAS</h1>
       <p>Yale Vision requires authentication with your Yale credentials.</p>
-      <a href={`/api/auth/cas?redirect=${redirects.afterLogin}`}>
-        Login with CAS
-      </a>
+      <a href={loginLink(redirects.afterLogin)}>Login with CAS</a>
     </section>
   );
 }

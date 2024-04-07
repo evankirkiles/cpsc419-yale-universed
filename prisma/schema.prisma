@@ -21,7 +21,14 @@ model User {
   spaces      Space[] 
 }
 
-
+model Location {
+  id        Int      @id @default(autoincrement())
+  name      String
+  isOffCampus Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  spaces    Space[]
+}
 
 model Session {
   id        String   @id
@@ -35,7 +42,9 @@ model Space {
   name      String
   description String
   userId      String
+  locationId  Int
   user        User      @relation(fields: [userId], references: [id])
+  location Location @relation(fields: [locationId], references: [id])
   comments Comment[]
   likes Like[]
   createdAt DateTime @default(now())

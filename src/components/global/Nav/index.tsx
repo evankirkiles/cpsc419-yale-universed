@@ -22,16 +22,10 @@ interface User {
 
 export default function Nav({ children }: PropsWithChildren) {
   const id = useId();
-  const [user, setUser] = useState<User | null>(null);;
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await validateRequest();
-      setUser(userData.user);
-    };
     setOpen(false);
-    fetchUser();
   }, [pathname]);
 
   return (
@@ -47,13 +41,11 @@ export default function Nav({ children }: PropsWithChildren) {
           <Link href="/">Map</Link>
         </li>
         <li>
+          <Link href="/guide">Guide</Link>
+        </li>
+        <li>
           <Link href="/about">About</Link>
         </li>
-        {user && (
-          <li>
-              <Link href={`/upload/${user.id}`}>Upload</Link>
-          </li>
-        )}
       </ul>
       <div className={s.control}>
         {children}
