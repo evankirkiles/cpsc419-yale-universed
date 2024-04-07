@@ -1,0 +1,88 @@
+/*
+ * Spaces.module.scss
+ * author: Evan Kirkiles
+ * created on Sat Apr 06 2024
+ * 2024 Yale CPSC 419 
+ */
+@import "@/styles/utils";
+
+.container {
+  padding-block-start: calc(var(--header-height) + var(--page-padding));
+  inline-size: calc(100% - 2 * var(--page-padding));
+  max-inline-size: var(--max-total-width);
+  margin-inline: auto;
+
+  & hgroup {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: calc(1 * var(--page-padding));
+    align-items: flex-end;
+
+    & p {
+      font-size: 1.2em;
+      line-height: 1.2;
+      margin-block-end: 2rem;
+      max-inline-size: 25ch;
+
+      @media screen and (max-width: 1024px) {
+        max-inline-size: unset;
+      }
+    }
+  }
+
+  & h1 {
+    margin-block-start: -0.2em;
+    font-weight: 700;
+    font-size: 5.2em;
+    line-height: 1.2;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchBar {
+  display: flex;
+  gap: 0.5rem;
+
+  & input[type="search"] {
+    border-block-end: 1px solid var(--color-fg);
+    padding: 0.5em 0.25em;
+    flex: 1;
+    color: var(--color-fg);
+  }
+
+  & button[type="submit"],
+  & button[type="reset"] {
+    display: grid;
+    place-items: center;
+    padding: 0.5em;
+    border: 1px solid var(--color-fg);
+    color: var(--color-fg);
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-fg);
+      color: var(--color-bg);
+    }
+  }
+}
+
+.searchResults {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.5rem;
+  margin-block: var(--page-padding);
+
+  @include media("xl") {
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  }
+
+  & div {
+    border: 1px solid var(--color-fg);
+    aspect-ratio: 3/2;
+  }
+}

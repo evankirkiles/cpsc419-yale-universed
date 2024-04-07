@@ -5,7 +5,7 @@
  * 2024 Yale CPSC 419 
  */
 
-.login {
+ .login {
   block-size: 2rem;
   padding-inline: 1rem;
   border: 1px solid currentColor;
@@ -17,7 +17,7 @@
   font-size: 0.8rem;
 }
 
-.avatarLoader {
+.avatar {
   block-size: 2.2rem;
   border: 1px solid currentColor;
   display: flex;
@@ -26,47 +26,4 @@
   border-radius: 100%;
   aspect-ratio: 1;
   background-color: var(--color-bg);
-}
-
-// components/AvatarDropdown.module.scss
-.avatarDropdown {
-  position: relative;
-  display: inline-block;
-
-  .avatar {
-    block-size: 2.2rem;
-    border: 1px solid currentColor;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
-    aspect-ratio: 1;
-    background-color: var(--color-bg);
-
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-  }
-
-  .dropdownMenu {
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-
-    a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-
-      &:hover {
-        background-color: #f1f1f1;
-      }
-    }
-  }
 }

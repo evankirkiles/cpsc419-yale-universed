@@ -8,7 +8,6 @@ import Balancer from "react-wrap-balancer";
 import s from "./Page.module.scss";
 import cx from "classnames";
 import Link from "next/link";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Home() {
   return (
@@ -67,7 +66,9 @@ export default function Home() {
           </ul>
         </div>
         <figure className={s.featured}>
-          <div>&nbsp;</div>
+          <div className={s.featuredImage}>
+            <img src="" /> {/* TODO: Fill out this */}
+          </div>
           <figcaption>
             <p>
               <strong>Featured Space</strong>

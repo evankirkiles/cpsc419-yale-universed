@@ -27,13 +27,13 @@ export default function Nav({ children }: PropsWithChildren) {
       </Link>
       <ul className={s.head}>
         <li>
-          <Link href="/">Spaces</Link>
+          <Link href="/spaces">Spaces</Link>
         </li>
         <li>
-          <Link href="/">Users</Link>
+          <Link href="/">Map</Link>
         </li>
         <li>
-          <Link href="/">About</Link>
+          <Link href="/about">About</Link>
         </li>
         <li>
           <Link href="/">Upload</Link>
