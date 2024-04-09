@@ -6,17 +6,17 @@
  */
 "use client";
 
-import { FormEventHandler, useState } from "react";
+import { useEffect, useState } from "react";
 import s from "./SpaceUpload.module.scss";
 import Dropzone from "react-dropzone";
 import SpacePreview from "@/components/page/SpaceUpload/preview";
-import AsyncSelect from "react-select";
+import AsyncSelect from "react-select/async-creatable";
 import { VscCheck } from "react-icons/vsc";
 import { useForm, Controller } from "react-hook-form";
 import { FaRegFile } from "react-icons/fa";
-import { formatBytes } from "@/lib/utils";
-import { type PutBlobResult } from "@vercel/blob";
-import { upload } from "@vercel/blob/client";
+import { formatBytes, uploadFile } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { type Location } from "@prisma/client";
 
 interface SpaceUploadFormProps {
   withPreview?: boolean;
@@ -52,13 +52,59 @@ export default function SpaceUploadForm({
   });
   // State for the picture URL
   const [pictureUrl, setPictureUrl] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Submission of the form, if everything's valid
-  const onSubmit = handleSubmit(async () => {
-    // 1. Begin uploading
-  });
+  const router = useRouter();
+  const [uploadState, setUploadState] = useState(UploadState.IDLE);
+  const onSubmit = handleSubmit(
+    async ({ model, picture, name, description, location }) => {
+      // 0. Ensure everything exists
+      if (!model || !picture) return;
 
-  console.log(watch("description"));
+      // 1. Upload the space model
+      setUploadState(UploadState.UPLOADING_SPACE);
+      const spaceKey = await uploadFile(model);
+
+      // 2. Upload the cover image
+      setUploadState(UploadState.UPLOADING_PICTURE);
+      const coverKey = await uploadFile(picture);
+      const [coverWidth, coverHeight] = await new Promise<[number, number]>(
+        (resolve) => {
+          const img = new Image();
+          img.onload = () => resolve([img.width, img.height]);
+          img.src = URL.createObjectURL(picture);
+        }
+      );
+
+      // 3. Create the space in the database
+      setUploadState(UploadState.FINALIZING);
+      await fetch("/api/spaces", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          location,
+          model: spaceKey,
+          picture: coverKey,
+          pictureWidth: coverWidth,
+          pictureHeight: coverHeight,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          const { id } = res;
+          setUploadState(UploadState.SUCCESS);
+          router.replace(`/spaces/${id}`);
+        });
+    }
+  );
 
   return (
     <>
@@ -185,49 +231,62 @@ export default function SpaceUploadForm({
             )}
           />
         </div>
-        <div>
-          <label>
-            <span>
-              <VscCheck />
-            </span>
-            Location Tag
-          </label>
-          <Controller
-            name="location"
-            control={control}
-            rules={{ required: true }}
-            render={({ field, fieldState }) => (
-              <AsyncSelect
-                onChange={(val) => field.onChange(val)}
-                styles={{
-                  control: (styles) => ({
-                    ...styles,
-                    marginBlock: "0.5rem",
-                    borderRadius: "0",
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-fg)",
-                    border: "1px solid var(--color-fg2)",
-                    padding: "0.25rem",
-                    cursor: "pointer",
-                  }),
-                  menu: (styles) => ({
-                    ...styles,
-                    border: "1px solid var(--color-fg2)",
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-fg)",
-                    padding: "0.25rem",
-                    cursor: "pointer",
-                  }),
-                  input: (styles) => ({
-                    ...styles,
-                    color: "var(--color-fg)",
-                  }),
-                }}
-                required
-              />
-            )}
-          />
-        </div>
+        {mounted && (
+          <div>
+            <label>
+              <span>
+                <VscCheck />
+              </span>
+              Location Tag
+            </label>
+            <Controller
+              name="location"
+              control={control}
+              rules={{ required: true }}
+              render={({ field, fieldState }) => (
+                <AsyncSelect
+                  loadOptions={async (inputValue) =>
+                    fetch(`/api/locations?q=${inputValue}`)
+                      .then((res) => res.json())
+                      .then((data) =>
+                        data.map((location: Location) => ({
+                          label: location.name,
+                          value: location.id,
+                        }))
+                      )
+                  }
+                  instanceId="location"
+                  onChange={(val) => field.onChange(val)}
+                  styles={{
+                    control: (styles) => ({
+                      ...styles,
+                      marginBlock: "0.5rem",
+                      borderRadius: "0",
+                      backgroundColor: "var(--color-bg)",
+                      color: "var(--color-fg)",
+                      border: "1px solid var(--color-fg2)",
+                      padding: "0.25rem",
+                      cursor: "pointer",
+                    }),
+                    menu: (styles) => ({
+                      ...styles,
+                      border: "1px solid var(--color-fg2)",
+                      backgroundColor: "var(--color-bg)",
+                      color: "var(--color-fg)",
+                      padding: "0.25rem",
+                      cursor: "pointer",
+                    }),
+                    input: (styles) => ({
+                      ...styles,
+                      color: "var(--color-fg)",
+                    }),
+                  }}
+                  required
+                />
+              )}
+            />
+          </div>
+        )}
         <button type="submit">Create Space</button>
       </form>
       {withPreview && <SpacePreview watch={watch} pictureUrl={pictureUrl} />}

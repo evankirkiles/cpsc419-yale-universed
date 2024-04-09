@@ -13,16 +13,22 @@ model User {
   id     String   @id
   bio    String @default("")
   fullName String @default("")
-  comments Comment[]
-  likes   Like[]
-  sessions Session[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   spaces      Space[] 
+  comments Comment[]
+  likes   Like[]
+  files    File[]
+  images    ImageFile[]
+
+  // Lucia-specific sessions table
+  sessions Session[]
 }
 
 model Location {
   id        Int      @id @default(autoincrement())
+  slug      String   @unique
   name      String
   isOffCampus Boolean @default(true)
   createdAt DateTime @default(now())
@@ -42,9 +48,13 @@ model Space {
   name      String
   description String
   userId      String
-  locationId  Int
+  locationId  Int?
+  modelId Int
+  pictureId Int
+  model File  @relation(fields: [modelId], references: [id])
+  picture ImageFile @relation(fields: [pictureId], references: [id])
   user        User      @relation(fields: [userId], references: [id])
-  location Location @relation(fields: [locationId], references: [id])
+  location Location? @relation(fields: [locationId], references: [id])
   comments Comment[]
   likes Like[]
   createdAt DateTime @default(now())
@@ -68,4 +78,26 @@ model Like {
   Space  Space  @relation(fields: [spaceId], references: [id])
   createdAt DateTime @default(now())
   @@id([spaceId, userId])
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  key       String
+  ownerId String
+  owner   User @relation(fields: [ownerId], references: [id])
+  spaces Space[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ImageFile {
+  id        Int      @id @default(autoincrement())
+  key       String
+  imageWidth  Int
+  imageHeight Int
+  ownerId String
+  owner   User @relation(fields: [ownerId], references: [id])
+  space Space[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

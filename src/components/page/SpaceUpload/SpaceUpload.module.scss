@@ -78,6 +78,7 @@
     border: 2px solid var(--color-fg2);
     background-color: var(--color-bg2);
     border-radius: 0.5rem;
+    overflow-x: hidden;
 
     & > div {
       justify-content: flex-start;
@@ -88,6 +89,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow-x: hidden;
+      display: flex;
 
       & > svg {
         margin-inline-end: 0.5rem;
@@ -134,5 +136,13 @@
       text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
     }
     margin-block-end: 1rem;
+  }
+
+  & pre {
+    white-space: pre-wrap; /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
   }
 }

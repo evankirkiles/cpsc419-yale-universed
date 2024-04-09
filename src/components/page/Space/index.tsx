@@ -7,13 +7,29 @@
 "use client";
 
 import World from "web-worlding";
-import { useEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import s from "./Space.module.scss";
+import { type ImageFile } from "@prisma/client";
+import cn from "classnames";
+import ImgixImage from "@/components/shared/Image";
+import { AWS_BUCKET_NAME } from "@/env";
 
-export default function Space() {
+interface SpaceProps extends PropsWithChildren {
+  className?: string;
+  spaceKey: string;
+  background: ImageFile;
+}
+
+export default function Space({
+  className,
+  spaceKey,
+  background,
+  children,
+}: SpaceProps) {
   // connect canvas to game
   const canvasRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<World | null>(null);
+  const [playing, setPlaying] = useState(false);
 
   // initialize the world immediately
   useEffect(() => {
@@ -28,7 +44,7 @@ export default function Space() {
     worldRef.current = new World(
       canvasRef.current,
       "/glb/personspace.glb",
-      "https://abitofpersonalspace.s3.amazonaws.com/spaces/Home2023_1ebb6/235dwight.glb"
+      `https://${AWS_BUCKET_NAME}.s3.amazonaws.com/${spaceKey}`
     );
 
     // Prevent default space scroll behavior
@@ -43,7 +59,18 @@ export default function Space() {
       // worldRef.current?.destroy();
       window?.removeEventListener("keypress", keyListener);
     };
-  }, []);
+  }, [playing, spaceKey]);
 
-  return <section className={s.container} ref={canvasRef} />;
+  return (
+    <section className={cn(s.container, className)} ref={canvasRef}>
+      <ImgixImage
+        src={background.key}
+        width={background.imageWidth}
+        height={background.imageHeight}
+        alt={`Space`}
+      />
+      <hgroup className={cn(!playing && "spaceOff")}>{children}</hgroup>
+      <button onClick={() => setPlaying(!playing)}></button>
+    </section>
+  );
 }
