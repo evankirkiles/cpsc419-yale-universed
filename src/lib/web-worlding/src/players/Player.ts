@@ -4,26 +4,32 @@
  * created on Sat Jun 25 2022
  * 2022 the player space,
  */
-import * as CANNON from 'cannon-es';
-import * as THREE from 'three';
-import { GLTF } from 'three-stdlib/loaders/GLTFLoader';
-import * as Utils from '../core/FunctionLibrary';
-import { InputManager } from '../input/InputManager';
-import { CollisionGroups } from '../enums/CollisionGroups';
-import { EntityType } from '../enums/EntityType';
-import { InputButton } from '../enums/UserInputs';
-import { IControllable } from '../interfaces/IControllable';
-import { IInputReceiver } from '../interfaces/IInputReceiver';
-import { IPlayerAI } from '../interfaces/IPlayerAI';
-import { IPlayerState } from '../interfaces/IPlayerState';
-import { IWorldEntity } from '../interfaces/IWorldEntity';
-import { CapsuleCollider } from '../physics/colliders/CapsuleCollider';
-import { RelativeSpringSimulator } from '../physics/simulators/RelativeSpringSimulator';
-import { VectorSpringSimulator } from '../physics/simulators/VectorSpringSimulator';
-import { World } from '../world/World';
-import { GroundImpactData } from './GroundImpactData';
-import { InteractionEntryInstance } from './InteractionEntryInstance';
-import { DropIdle, Falling, Idle, PlayerState, Walk } from './states/_stateLibrary';
+import * as CANNON from "cannon-es";
+import * as THREE from "three";
+import { GLTF } from "three-stdlib";
+import * as Utils from "../core/FunctionLibrary";
+import { InputManager } from "../input/InputManager";
+import { CollisionGroups } from "../enums/CollisionGroups";
+import { EntityType } from "../enums/EntityType";
+import { InputButton } from "../enums/UserInputs";
+import { IControllable } from "../interfaces/IControllable";
+import { IInputReceiver } from "../interfaces/IInputReceiver";
+import { IPlayerAI } from "../interfaces/IPlayerAI";
+import { IPlayerState } from "../interfaces/IPlayerState";
+import { IWorldEntity } from "../interfaces/IWorldEntity";
+import { CapsuleCollider } from "../physics/colliders/CapsuleCollider";
+import { RelativeSpringSimulator } from "../physics/simulators/RelativeSpringSimulator";
+import { VectorSpringSimulator } from "../physics/simulators/VectorSpringSimulator";
+import { World } from "../world/World";
+import { GroundImpactData } from "./GroundImpactData";
+import { InteractionEntryInstance } from "./InteractionEntryInstance";
+import {
+  DropIdle,
+  Falling,
+  Idle,
+  PlayerState,
+  Walk,
+} from "./states/_stateLibrary";
 
 /**
  * The PlayerPlayer class is the controller interface for the Player, which is
@@ -31,7 +37,10 @@ import { DropIdle, Falling, Idle, PlayerState, Walk } from './states/_stateLibra
  * information about the Player mesh and creates a corresponding collider that
  * is scaled based on the Player's own proportions.
  */
-export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiver {
+export class Player
+  extends THREE.Object3D
+  implements IWorldEntity, IInputReceiver
+{
   // worldentity + updatable properties
   public updateOrder = 1;
   public entityType: EntityType = EntityType.Player;
@@ -147,12 +156,12 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
     this.velocitySimulator = new VectorSpringSimulator(
       60,
       this.defaultVelocitySimulatorMass,
-      this.defaultVelocitySimulatorDamping,
+      this.defaultVelocitySimulatorDamping
     );
     this.rotationSimulator = new RelativeSpringSimulator(
       60,
       this.defaultRotationSimulatorMass,
-      this.defaultRotationSimulatorDamping,
+      this.defaultRotationSimulatorDamping
     );
 
     // player capsule
@@ -198,7 +207,11 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
   /**
    * Updates the influence of arcade controls on the player
    */
-  public setArcadeVelocityInfluence(x: number, y: number = x, z: number = x): void {
+  public setArcadeVelocityInfluence(
+    x: number,
+    y: number = x,
+    z: number = x
+  ): void {
     this.arcadeVelocityInfluence.set(x, y, z);
   }
 
@@ -312,7 +325,7 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
   public addToWorld(world: World): void {
     // check to make sure the player is not already in the world
     if (world.players.includes(this)) {
-      console.warn('Could not add PLAYER to world it already exists in!');
+      console.warn("Could not add PLAYER to world it already exists in!");
       // if not, then add the player to the world
     } else {
       this.world = world;
@@ -322,8 +335,8 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       world.graphicsWorld.add(this.raycastBox);
 
       // add pre- and post- step listeners
-      world.physicsWorld.addEventListener('preStep', this.preStepListener);
-      world.physicsWorld.addEventListener('postStep', this.postStepListener);
+      world.physicsWorld.addEventListener("preStep", this.preStepListener);
+      world.physicsWorld.addEventListener("postStep", this.postStepListener);
     }
   }
 
@@ -334,10 +347,11 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
   public removeFromWorld(world: World): void {
     // check to make sure the player is still in the world
     if (world.players.includes(this)) {
-      console.warn('Could not remove PLAYER from a world it is not in!');
+      console.warn("Could not remove PLAYER from a world it is not in!");
       // if so, then remove the player from the world
     } else {
-      if (world.inputManager.inputReceiver === this) world.inputManager.inputReceiver = undefined;
+      if (world.inputManager.inputReceiver === this)
+        world.inputManager.inputReceiver = undefined;
       this.world = undefined;
 
       // remove from players, world, body
@@ -347,8 +361,8 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       world.graphicsWorld.remove(this);
 
       // remove pre- and post- step listeners
-      world.physicsWorld.removeEventListener('preStep', this.preStepListener);
-      world.physicsWorld.removeEventListener('postStep', this.postStepListener);
+      world.physicsWorld.removeEventListener("preStep", this.preStepListener);
+      world.physicsWorld.removeEventListener("postStep", this.postStepListener);
     }
   }
 
@@ -385,13 +399,15 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       this.position.set(
         this.playerCapsule.body.interpolatedPosition.x,
         this.playerCapsule.body.interpolatedPosition.y,
-        this.playerCapsule.body.interpolatedPosition.z,
+        this.playerCapsule.body.interpolatedPosition.z
       );
     } else {
       const newPos = new THREE.Vector3();
       this.getWorldPosition(newPos);
       this.playerCapsule.body.position.copy(Utils.cannonVector(newPos));
-      this.playerCapsule.body.interpolatedPosition.copy(Utils.cannonVector(newPos));
+      this.playerCapsule.body.interpolatedPosition.copy(
+        Utils.cannonVector(newPos)
+      );
     }
     // update the global transsform of the object
     this.updateMatrixWorld();
@@ -432,7 +448,7 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       this.raycastBox.position.set(
         body.position.x,
         body.position.y - this.raycastLength - this.raySafeOffset,
-        body.position.z,
+        body.position.z
       );
     }
   }
@@ -448,7 +464,7 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
     const end = new CANNON.Vec3(
       body.position.x,
       body.position.y - this.raycastLength - this.raySafeOffset,
-      body.position.z,
+      body.position.z
     );
     // raycast options
     const rayCastOptions: CANNON.RayOptions = {
@@ -456,7 +472,12 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       skipBackfaces: true, // ignore back faces
     };
     // cast the ray
-    this.rayHasHit = this.world.physicsWorld.raycastClosest(start, end, rayCastOptions, this.rayResult);
+    this.rayHasHit = this.world.physicsWorld.raycastClosest(
+      start,
+      end,
+      rayCastOptions,
+      this.rayResult
+    );
   }
 
   /**
@@ -468,42 +489,69 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
 
     // get velocities
     const { body } = this.playerCapsule;
-    const simulatedVelocity = new THREE.Vector3(body.velocity.x, body.velocity.y, body.velocity.z);
+    const simulatedVelocity = new THREE.Vector3(
+      body.velocity.x,
+      body.velocity.y,
+      body.velocity.z
+    );
     // take local velocity
     let arcadeVelocity = new THREE.Vector3().copy(this.velocity).multiplyScalar(
-      this.moveSpeed,
+      this.moveSpeed
       // * this.inputManager.joysticks.main.magnitude // speed based on distance.
     );
     // turn local into global
-    arcadeVelocity = Utils.applyVectorMatrixXZ(this.orientation, arcadeVelocity);
+    arcadeVelocity = Utils.applyVectorMatrixXZ(
+      this.orientation,
+      arcadeVelocity
+    );
     let newVelocity = new THREE.Vector3();
     // additive velocity mode - add arcade velocity to current velocity
     if (this.arcadeVelocityIsAdditive) {
       newVelocity.copy(simulatedVelocity);
-      const globalVelocityTarget = Utils.applyVectorMatrixXZ(this.orientation, this.velocityTarget);
-      const add = new THREE.Vector3().copy(arcadeVelocity).multiply(this.arcadeVelocityInfluence);
+      const globalVelocityTarget = Utils.applyVectorMatrixXZ(
+        this.orientation,
+        this.velocityTarget
+      );
+      const add = new THREE.Vector3()
+        .copy(arcadeVelocity)
+        .multiply(this.arcadeVelocityInfluence);
       // add the arcade velocity to the current velocity
       if (
-        Math.abs(simulatedVelocity.x) < Math.abs(globalVelocityTarget.x * this.moveSpeed) ||
+        Math.abs(simulatedVelocity.x) <
+          Math.abs(globalVelocityTarget.x * this.moveSpeed) ||
         Utils.haveDifferentSigns(simulatedVelocity.x, arcadeVelocity.x)
       )
         newVelocity.x += add.x;
       if (
-        Math.abs(simulatedVelocity.y) < Math.abs(globalVelocityTarget.y * this.moveSpeed) ||
+        Math.abs(simulatedVelocity.y) <
+          Math.abs(globalVelocityTarget.y * this.moveSpeed) ||
         Utils.haveDifferentSigns(simulatedVelocity.y, arcadeVelocity.y)
       )
         newVelocity.y += add.y;
       if (
-        Math.abs(simulatedVelocity.z) < Math.abs(globalVelocityTarget.z * this.moveSpeed) ||
+        Math.abs(simulatedVelocity.z) <
+          Math.abs(globalVelocityTarget.z * this.moveSpeed) ||
         Utils.haveDifferentSigns(simulatedVelocity.z, arcadeVelocity.z)
       )
         newVelocity.z += add.z;
       // non-additive arcade velocity mode - arcade velocity is velocity
     } else {
       newVelocity = new THREE.Vector3(
-        THREE.MathUtils.lerp(simulatedVelocity.x, arcadeVelocity.x, this.arcadeVelocityInfluence.x),
-        THREE.MathUtils.lerp(simulatedVelocity.y, arcadeVelocity.y, this.arcadeVelocityInfluence.y),
-        THREE.MathUtils.lerp(simulatedVelocity.z, arcadeVelocity.z, this.arcadeVelocityInfluence.z),
+        THREE.MathUtils.lerp(
+          simulatedVelocity.x,
+          arcadeVelocity.x,
+          this.arcadeVelocityInfluence.x
+        ),
+        THREE.MathUtils.lerp(
+          simulatedVelocity.y,
+          arcadeVelocity.y,
+          this.arcadeVelocityInfluence.y
+        ),
+        THREE.MathUtils.lerp(
+          simulatedVelocity.z,
+          arcadeVelocity.z,
+          this.arcadeVelocityInfluence.z
+        )
       );
     }
 
@@ -516,7 +564,10 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       // move on top of moving objects
       if (this.rayResult.body.mass > 0) {
         const pointVelocity = new CANNON.Vec3();
-        this.rayResult.body.getVelocityAtWorldPoint(this.rayResult.hitPointWorld, pointVelocity);
+        this.rayResult.body.getVelocityAtWorldPoint(
+          this.rayResult.hitPointWorld,
+          pointVelocity
+        );
         newVelocity.add(Utils.threeVector(pointVelocity));
       }
       // measure the normal vector offset from direct "up vector" and transform
@@ -525,7 +576,7 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       const normal = new THREE.Vector3(
         this.rayResult.hitNormalWorld.x,
         this.rayResult.hitNormalWorld.y,
-        this.rayResult.hitNormalWorld.z,
+        this.rayResult.hitNormalWorld.z
       );
       const q = new THREE.Quaternion().setFromUnitVectors(up, normal);
       const m = new THREE.Matrix4().makeRotationFromQuaternion(q);
@@ -537,7 +588,9 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       body.velocity.z = newVelocity.z;
       // Ground character
       body.position.y =
-        this.rayResult.hitPointWorld.y + this.raycastLength + newVelocity.y / this.world.physicsFrameRate;
+        this.rayResult.hitPointWorld.y +
+        this.raycastLength +
+        newVelocity.y / this.world.physicsFrameRate;
       // otherwise, handle air maneuvering
     } else {
       // if player is in the air
@@ -559,12 +612,20 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
         // flatten velocity
         body.velocity.y = 0;
         // apply momentum in orientation
-        const speed = Math.max(this.velocitySimulator.position.length() * this.moveSpeed, this.initJumpSpeed);
-        body.velocity = Utils.cannonVector(this.orientation.clone().multiplyScalar(speed));
+        const speed = Math.max(
+          this.velocitySimulator.position.length() * this.moveSpeed,
+          this.initJumpSpeed
+        );
+        body.velocity = Utils.cannonVector(
+          this.orientation.clone().multiplyScalar(speed)
+        );
       } else {
         // moving objects compensation
         const add = new CANNON.Vec3();
-        this.rayResult.body?.getVelocityAtWorldPoint(this.rayResult.hitPointWorld, add);
+        this.rayResult.body?.getVelocityAtWorldPoint(
+          this.rayResult.hitPointWorld,
+          add
+        );
         body.velocity.vsub(add, body.velocity);
       }
 
@@ -651,7 +712,10 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
       this.controlledObject.inputReceiverUpdate(timeStep);
     } else {
       // look in the camera's direction
-      this.viewVector = new THREE.Vector3().subVectors(this.position, this.world.camera.position);
+      this.viewVector = new THREE.Vector3().subVectors(
+        this.position,
+        this.world.camera.position
+      );
       const v = new THREE.Vector3();
       this.getWorldPosition(v);
       // this.world.cameraController.setTarget(v.x, v.y, v.z);
@@ -686,7 +750,11 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
    */
   public getCameraRelativeMovementVector(): THREE.Vector3 {
     const localDirection = this.getLocalMovementDirection();
-    const flatViewVector = new THREE.Vector3(this.viewVector.x, 0, this.viewVector.z).normalize();
+    const flatViewVector = new THREE.Vector3(
+      this.viewVector.x,
+      0,
+      this.viewVector.z
+    ).normalize();
     return Utils.applyVectorMatrixXZ(flatViewVector, localDirection);
   }
 
@@ -732,7 +800,10 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
    */
   public springRotation(timestep: number): void {
     // figure out angle between current and target orientation
-    const angle = Utils.getSignedAngleBetweenVectors(this.orientation, this.orientationTarget);
+    const angle = Utils.getSignedAngleBetweenVectors(
+      this.orientation,
+      this.orientationTarget
+    );
 
     // simulator
     this.rotationSimulator.target = angle;
@@ -750,9 +821,14 @@ export class Player extends THREE.Object3D implements IWorldEntity, IInputReceiv
     this.lookAt(
       this.position.x + this.orientation.x,
       this.position.y + this.orientation.y,
-      this.position.z + this.orientation.z,
+      this.position.z + this.orientation.z
     );
-    this.tiltContainer.rotation.z = -this.angularVelocity * 1.2 * this.velocity.length();
-    this.tiltContainer.position.setY(Math.cos(Math.abs(this.angularVelocity * 2.3 * this.velocity.length())) / 2 - 0.5);
+    this.tiltContainer.rotation.z =
+      -this.angularVelocity * 1.2 * this.velocity.length();
+    this.tiltContainer.position.setY(
+      Math.cos(Math.abs(this.angularVelocity * 2.3 * this.velocity.length())) /
+        2 -
+        0.5
+    );
   }
 }
