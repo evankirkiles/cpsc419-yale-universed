@@ -97,7 +97,6 @@ export default class GamepadInputProvider implements IInputProvider {
   onButtonChange(e: any): void {
     console.log(e.index, this.bindings_buttons[e.index]);
     if (!this.isListening || !this.bindings_buttons[e.index]) return;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.manager.handleButtonEvent(this.bindings_buttons[e.index]!, !!e.value);
   }
 
