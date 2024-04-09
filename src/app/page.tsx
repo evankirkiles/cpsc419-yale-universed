@@ -23,8 +23,8 @@ export default function Home() {
               </Balancer>
             </p>
           </hgroup>
-          <Link className={s.demo} href="/spaces/test">
-            Demo a Space
+          <Link className={s.demo} href="/login">
+            Log in with CAS
           </Link>
           <ul className={s.linkrow}>
             <li>
