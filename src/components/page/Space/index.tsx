@@ -6,7 +6,7 @@
  */
 "use client";
 
-import World from "web-worlding";
+import World from "@/lib/web-worlding/src";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import s from "./Space.module.scss";
 import { type ImageFile } from "@prisma/client";

@@ -35,7 +35,14 @@
     "react-wrap-balancer": "^1.1.0",
     "sass": "^1.71.1",
     "uuid": "^9.0.1",
-    "web-worlding": "^0.1.8"
+    "@types/three": "^0.146.0",
+    "camera-controls": "^1.37.4",
+    "cannon-es": "^0.20.0",
+    "cannon-es-debugger": "^1.0.0",
+    "nipplejs": "^0.10.0",
+    "three": "^0.147.0",
+    "three-mesh-bvh": "^0.5.19",
+    "three-stdlib": "^2.20.4"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

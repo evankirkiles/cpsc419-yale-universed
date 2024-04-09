@@ -20,12 +20,24 @@ dependencies:
   '@supabase/supabase-js':
     specifier: ^2.39.7
     version: 2.39.7
+  '@types/three':
+    specifier: ^0.146.0
+    version: 0.146.0
   '@vercel/blob':
     specifier: ^0.22.2
     version: 0.22.2
   bootstrap:
     specifier: ^5.3.3
     version: 5.3.3(@popperjs/core@2.11.8)
+  camera-controls:
+    specifier: ^1.37.4
+    version: 1.38.2(three@0.147.0)
+  cannon-es:
+    specifier: ^0.20.0
+    version: 0.20.0
+  cannon-es-debugger:
+    specifier: ^1.0.0
+    version: 1.0.0(cannon-es@0.20.0)(three@0.147.0)(typescript@5.4.2)
   classnames:
     specifier: ^2.5.1
     version: 2.5.1
@@ -38,6 +50,9 @@ dependencies:
   next:
     specifier: 14.2.0-canary.40
     version: 14.2.0-canary.40(react-dom@18.2.0)(react@18.2.0)(sass@1.71.1)
+  nipplejs:
+    specifier: ^0.10.0
+    version: 0.10.1
   passport-cas:
     specifier: ^0.1.1
     version: 0.1.1
@@ -74,12 +89,18 @@ dependencies:
   sass:
     specifier: ^1.71.1
     version: 1.71.1
+  three:
+    specifier: ^0.147.0
+    version: 0.147.0
+  three-mesh-bvh:
+    specifier: ^0.5.19
+    version: 0.5.24(three@0.147.0)
+  three-stdlib:
+    specifier: ^2.20.4
+    version: 2.29.5(three@0.147.0)
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
-  web-worlding:
-    specifier: ^0.1.8
-    version: 0.1.8(typescript@5.4.2)
 
 devDependencies:
   '@types/node':
@@ -4845,21 +4866,6 @@ packages:
   /v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: true
-
-  /web-worlding@0.1.8(typescript@5.4.2):
-    resolution: {integrity: sha512-LOHNgE2t3IvrKTxlGwU7pvI4nmvp5yJWgklNOUv2fLXqPjs/KwpJV/cWc15wcDoV9G8u1eTgecwfrjCno2cscg==}
-    dependencies:
-      '@types/three': 0.146.0
-      camera-controls: 1.38.2(three@0.147.0)
-      cannon-es: 0.20.0
-      cannon-es-debugger: 1.0.0(cannon-es@0.20.0)(three@0.147.0)(typescript@5.4.2)
-      nipplejs: 0.10.1
-      three: 0.147.0
-      three-mesh-bvh: 0.5.24(three@0.147.0)
-      three-stdlib: 2.29.5(three@0.147.0)
-    transitivePeerDependencies:
-      - typescript
-    dev: false
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
