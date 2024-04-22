@@ -74,6 +74,10 @@
   transform: scale(1.5);
   transform-origin: 50% 50%;
   cursor: pointer;
+
+  @include media("md") {
+    display: none;
+  }
 }
 
 .control {

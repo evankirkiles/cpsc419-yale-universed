@@ -52,7 +52,6 @@
 
   & button[type="submit"] {
     border: 1px solid var(--color-fg);
-    border: 1px solid var(--color-fg);
     padding: 1rem;
   }
 }
@@ -144,5 +143,15 @@
     white-space: -pre-wrap; /* Opera 4-6 */
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-word; /* Internet Explorer 5.5+ */
+  }
+}
+
+.deleteSpace {
+  border: 1px solid var(--color-fg);
+  padding: 1rem;
+  background-color: rgba(151, 0, 0, 0.5);
+
+  &:hover {
+    background-color: rgba(151, 0, 0, 0.2);
   }
 }

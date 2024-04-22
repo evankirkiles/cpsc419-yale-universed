@@ -16,16 +16,24 @@ import { useForm, Controller } from "react-hook-form";
 import { FaRegFile } from "react-icons/fa";
 import { formatBytes, uploadFile } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { type Location } from "@prisma/client";
+import { File as TFile, ImageFile, Space, type Location } from "@prisma/client";
+import { Optional } from "@prisma/client/runtime/library";
+import Link from "next/link";
 
 interface SpaceUploadFormProps {
   withPreview?: boolean;
+  initialValue?: Optional<Omit<Space, "id">> &
+    Pick<Space, "id"> & {
+      location?: Location | null;
+      model?: TFile | null;
+      picture?: ImageFile | null;
+    };
 }
 
 export interface UploadFormState {
   name: string | undefined;
   description: string | undefined;
-  location: string | undefined;
+  location: { value: number; label: string } | undefined;
   model: File | undefined;
   picture: File | undefined;
   pictureUrl: string | undefined;
@@ -42,123 +50,158 @@ enum UploadState {
 
 export default function SpaceUploadForm({
   withPreview = true,
+  initialValue,
 }: SpaceUploadFormProps) {
   const { register, control, handleSubmit, watch } = useForm<UploadFormState>({
     defaultValues: {
-      name: "",
-      description: "",
-      location: undefined,
+      name: initialValue?.name ?? "",
+      description: initialValue?.description ?? "",
+      location: initialValue?.location
+        ? { value: initialValue.location.id, label: initialValue.location.name }
+        : undefined,
     },
   });
   // State for the picture URL
-  const [pictureUrl, setPictureUrl] = useState<string | null>(null);
+  const [pictureUrl, setPictureUrl] = useState<string | null>(
+    initialValue?.picture?.key
+      ? `https://yalevision.imgix.net/${initialValue.picture.key}`
+      : null
+  );
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const isEdit = !!initialValue;
+
   // Submission of the form, if everything's valid
   const router = useRouter();
   const [uploadState, setUploadState] = useState(UploadState.IDLE);
   const onSubmit = handleSubmit(
-    async ({ model, picture, name, description, location }) => {
-      // 0. Ensure everything exists
-      if (!model || !picture) return;
-
-      // 1. Upload the space model
-      setUploadState(UploadState.UPLOADING_SPACE);
-      const spaceKey = await uploadFile(model);
-
-      // 2. Upload the cover image
-      setUploadState(UploadState.UPLOADING_PICTURE);
-      const coverKey = await uploadFile(picture);
-      const [coverWidth, coverHeight] = await new Promise<[number, number]>(
-        (resolve) => {
-          const img = new Image();
-          img.onload = () => resolve([img.width, img.height]);
-          img.src = URL.createObjectURL(picture);
+    isEdit
+      ? async ({ name, description, location }) => {
+          // 3. Create the space in the database
+          setUploadState(UploadState.FINALIZING);
+          await fetch(`/api/spaces/${initialValue.id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              description,
+              location,
+            }),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              const { id } = res;
+              setUploadState(UploadState.SUCCESS);
+              router.replace(`/spaces/${id}`);
+            });
         }
-      );
+      : async ({ model, picture, name, description, location }) => {
+          // 0. Ensure everything exists
+          if (!model || !picture) return;
 
-      // 3. Create the space in the database
-      setUploadState(UploadState.FINALIZING);
-      await fetch("/api/spaces", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          description,
-          location,
-          model: spaceKey,
-          picture: coverKey,
-          pictureWidth: coverWidth,
-          pictureHeight: coverHeight,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          const { id } = res;
-          setUploadState(UploadState.SUCCESS);
-          router.replace(`/spaces/${id}`);
-        });
-    }
+          // 1. Upload the space model
+          setUploadState(UploadState.UPLOADING_SPACE);
+          const spaceKey = await uploadFile(model);
+
+          // 2. Upload the cover image
+          setUploadState(UploadState.UPLOADING_PICTURE);
+          const coverKey = await uploadFile(picture);
+          const [coverWidth, coverHeight] = await new Promise<[number, number]>(
+            (resolve) => {
+              const img = new Image();
+              img.onload = () => resolve([img.width, img.height]);
+              img.src = URL.createObjectURL(picture);
+            }
+          );
+
+          // 3. Create the space in the database
+          setUploadState(UploadState.FINALIZING);
+          await fetch("/api/spaces", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              description,
+              location,
+              model: spaceKey,
+              picture: coverKey,
+              pictureWidth: coverWidth,
+              pictureHeight: coverHeight,
+            }),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              const { id } = res;
+              setUploadState(UploadState.SUCCESS);
+              router.replace(`/spaces/${id}`);
+            });
+        }
   );
 
   return (
     <>
       <form onSubmit={onSubmit} className={s.uploadForm}>
-        <div>
-          <label htmlFor="upload_Picture" data-is-valid={!!watch("picture")}>
-            <span>
-              <VscCheck />
-            </span>
-            Cover Image
-          </label>
-          <small>A cover image to use for your space across the site.</small>
-          <Controller
-            control={control}
-            name="picture"
-            render={({ field }) => (
-              <Dropzone
-                onDrop={(files) => {
-                  const file = files[0];
-                  setPictureUrl(URL.createObjectURL(file));
-                  field.onChange(files[0]);
-                }}
-                accept={{
-                  "image/jpeg": [],
-                  "image/png": [],
-                }}
-              >
-                {({ getRootProps, getInputProps, acceptedFiles }) => (
-                  <section
-                    className={s.dropzone}
-                    data-filled={!!acceptedFiles?.length}
-                  >
-                    <div {...getRootProps()}>
-                      <input
-                        id="upload_Picture"
-                        {...getInputProps()}
-                        required
-                      />
-                      {acceptedFiles?.length ? (
-                        <p>
-                          <FaRegFile />
-                          {acceptedFiles[0].name} (
-                          {formatBytes(acceptedFiles[0].size)})
-                        </p>
-                      ) : (
-                        <p>Upload a cover image for the space (.png, .jpeg)</p>
-                      )}
-                    </div>
-                  </section>
-                )}
-              </Dropzone>
-            )}
-          />
-        </div>
+        {!isEdit && (
+          <div>
+            <label htmlFor="upload_Picture" data-is-valid={!!watch("picture")}>
+              <span>
+                <VscCheck />
+              </span>
+              Cover Image
+            </label>
+            <small>A cover image to use for your space across the site.</small>
+            <Controller
+              control={control}
+              name="picture"
+              render={({ field }) => (
+                <Dropzone
+                  onDrop={(files) => {
+                    const file = files[0];
+                    setPictureUrl(URL.createObjectURL(file));
+                    field.onChange(files[0]);
+                  }}
+                  accept={{
+                    "image/jpeg": [],
+                    "image/png": [],
+                  }}
+                >
+                  {({ getRootProps, getInputProps, acceptedFiles }) => (
+                    <section
+                      className={s.dropzone}
+                      data-filled={!!acceptedFiles?.length}
+                    >
+                      <div {...getRootProps()}>
+                        <input
+                          id="upload_Picture"
+                          {...getInputProps()}
+                          required
+                        />
+                        {acceptedFiles?.length ? (
+                          <p>
+                            <FaRegFile />
+                            {acceptedFiles[0].name} (
+                            {formatBytes(acceptedFiles[0].size)})
+                          </p>
+                        ) : (
+                          <p>
+                            Upload a cover image for the space (.png, .jpeg)
+                          </p>
+                        )}
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              )}
+            />
+          </div>
+        )}
         <div>
           <label htmlFor="upload_Name" data-is-valid={!!watch("name")}>
             <span>
@@ -188,49 +231,51 @@ export default function SpaceUploadForm({
             {...register("description", { required: true })}
           />
         </div>
-        <div>
-          <label htmlFor={"upload_File"} data-is-valid={!!watch("model")}>
-            <span>
-              <VscCheck />
-            </span>
-            Space File
-          </label>
-          <small>
-            Provide your space file exported from Polycam, as per the guide.
-          </small>
-          <Controller
-            control={control}
-            name="model"
-            render={({ field }) => (
-              <Dropzone
-                onDrop={(files) => field.onChange(files[0])}
-                accept={{
-                  "model/gltf-binary": [".glb"],
-                }}
-              >
-                {({ getRootProps, getInputProps, acceptedFiles }) => (
-                  <section
-                    className={s.dropzone}
-                    data-filled={!!acceptedFiles?.length}
-                  >
-                    <div {...getRootProps()}>
-                      <input id="upload_File" {...getInputProps()} required />
-                      {acceptedFiles?.length ? (
-                        <p>
-                          <FaRegFile />
-                          {acceptedFiles[0].name} (
-                          {formatBytes(acceptedFiles[0].size)})
-                        </p>
-                      ) : (
-                        <p>Upload a .glb file</p>
-                      )}
-                    </div>
-                  </section>
-                )}
-              </Dropzone>
-            )}
-          />
-        </div>
+        {!isEdit && (
+          <div>
+            <label htmlFor={"upload_File"} data-is-valid={!!watch("model")}>
+              <span>
+                <VscCheck />
+              </span>
+              Space File
+            </label>
+            <small>
+              Provide your space file exported from Polycam, as per the guide.
+            </small>
+            <Controller
+              control={control}
+              name="model"
+              render={({ field }) => (
+                <Dropzone
+                  onDrop={(files) => field.onChange(files[0])}
+                  accept={{
+                    "model/gltf-binary": [".glb"],
+                  }}
+                >
+                  {({ getRootProps, getInputProps, acceptedFiles }) => (
+                    <section
+                      className={s.dropzone}
+                      data-filled={!!acceptedFiles?.length}
+                    >
+                      <div {...getRootProps()}>
+                        <input id="upload_File" {...getInputProps()} required />
+                        {acceptedFiles?.length ? (
+                          <p>
+                            <FaRegFile />
+                            {acceptedFiles[0].name} (
+                            {formatBytes(acceptedFiles[0].size)})
+                          </p>
+                        ) : (
+                          <p>Upload a .glb file</p>
+                        )}
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              )}
+            />
+          </div>
+        )}
         {mounted && (
           <div>
             <label>
@@ -256,6 +301,7 @@ export default function SpaceUploadForm({
                       )
                   }
                   instanceId="location"
+                  value={field.value}
                   onChange={(val) => field.onChange(val)}
                   styles={{
                     control: (styles) => ({
@@ -287,7 +333,24 @@ export default function SpaceUploadForm({
             />
           </div>
         )}
-        <button type="submit">Create Space</button>
+        <button type="submit">{isEdit ? "Update" : "Create"} Space</button>
+        {isEdit && (
+          <button
+            className={s.deleteSpace}
+            onClick={(e) => {
+              e.preventDefault();
+              fetch(`/api/spaces/${initialValue.id}`, {
+                method: "DELETE",
+              }).then(() => router.replace("/spaces"));
+              return false;
+            }}
+          >
+            Delete Space
+          </button>
+        )}
+        {isEdit && (
+          <Link href={`/spaces/${initialValue.id}`}>← Discard Changes</Link>
+        )}
       </form>
       {withPreview && <SpacePreview watch={watch} pictureUrl={pictureUrl} />}
     </>

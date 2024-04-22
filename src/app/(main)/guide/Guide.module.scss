@@ -12,6 +12,16 @@
   margin-inline: auto;
   display: grid;
 
+  & ul,
+  & ol {
+    display: block;
+    padding-inline-start: 2rem;
+  }
+
+  & li {
+    display: list-item;
+  }
+
   & hgroup {
     display: flex;
     flex-wrap: wrap;
@@ -43,13 +53,25 @@
   }
 
   & h2 {
-    margin-block-start: 0.5em;
+    margin-block: 0.5em 0.5rem;
     font-weight: 700;
     font-size: 2.5em;
-    line-height: 1.5;
+    line-height: 1;
   }
 }
 
 .body {
   max-inline-size: 80ch;
+}
+
+.nextStep {
+  padding: 1rem;
+  border: 1px solid currentColor;
+  display: block;
+  margin-block-start: 1rem;
+  inline-size: fit-content;
+  &::after {
+    content: "→";
+    margin-inline-start: 0.5rem;
+  }
 }

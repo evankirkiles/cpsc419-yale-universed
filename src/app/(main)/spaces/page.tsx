@@ -6,16 +6,25 @@
  */
 
 import prisma from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import s from "./Spaces.module.scss";
 import { VscClose, VscSearch } from "react-icons/vsc";
 import { GrClear, GrClose } from "react-icons/gr";
 import Balancer from "react-wrap-balancer";
 import ImgixImage from "@/components/shared/Image";
+import Search from "@/app/(main)/spaces/search";
 
-export default async function SpacesPage() {
+export default async function SpacesPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
+  const query = searchParams["q"];
   const spaces = await prisma.space.findMany({
     include: { location: true, picture: true },
+    where: query
+      ? { name: { contains: query, mode: "insensitive" } }
+      : undefined,
   });
 
   return (
@@ -30,7 +39,7 @@ export default async function SpacesPage() {
       </hgroup>
       <form className={s.form}>
         <div className={s.searchBar}>
-          <input type="search" placeholder="Search..." />
+          <Search query={query} />
           <button type="submit">
             <VscSearch />
           </button>
@@ -44,28 +53,22 @@ export default async function SpacesPage() {
         aria-label="Search Results"
         aria-live="polite"
       >
-        {spaces.map((space) => (
-          <a key={space.id} href={`/spaces/${space.id}`} className={s.space}>
-            <ImgixImage
-              src={space.picture.key}
-              width={space.picture.imageWidth}
-              height={space.picture.imageHeight}
-              alt={`Space`}
-            />
-            <h2>{space.name}</h2>
-            <p>{space.location?.name}</p>
-          </a>
-        ))}
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
+        {spaces.length ? (
+          spaces.map((space) => (
+            <a key={space.id} href={`/spaces/${space.id}`} className={s.space}>
+              <ImgixImage
+                src={space.picture.key}
+                width={space.picture.imageWidth}
+                height={space.picture.imageHeight}
+                alt={`Space`}
+              />
+              <h2>{space.name}</h2>
+              <p>{space.location?.name}</p>
+            </a>
+          ))
+        ) : (
+          <p>No results found.</p>
+        )}
       </section>
     </article>
   );

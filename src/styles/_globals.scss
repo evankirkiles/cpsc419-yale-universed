@@ -5,6 +5,41 @@
  * 2023 evan's website 
  */
 
-@import 'global/reset';
-@import 'global/typography';
-@import 'global/theming';
+@import "global/reset";
+@import "global/typography";
+@import "global/theming";
+
+.noAuth {
+  padding-block-start: calc(var(--header-height) + var(--page-padding));
+  inline-size: calc(100% - 2 * var(--page-padding));
+  max-inline-size: var(--max-total-width);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  block-size: 100svh;
+  text-align: center;
+
+  & h1 {
+    margin-block-start: -0.2em;
+    font-weight: 700;
+    font-size: 5.2em;
+    line-height: 1.1;
+  }
+
+  & a {
+    display: block;
+    max-inline-size: 40ch;
+    background-color: var(--color-fg);
+    padding: 0.5em 1em;
+    text-align: center;
+    color: var(--color-bg);
+    margin-block-start: 1rem;
+    margin-inline: auto;
+
+    &:hover {
+      background-color: var(--color-bg2);
+      color: var(--color-fg);
+    }
+  }
+}

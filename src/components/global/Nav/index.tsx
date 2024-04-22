@@ -38,9 +38,6 @@ export default function Nav({ children }: PropsWithChildren) {
           <Link href="/spaces">Spaces</Link>
         </li>
         <li>
-          <Link href="/">Map</Link>
-        </li>
-        <li>
           <Link href="/guide">Guide</Link>
         </li>
         <li>
