@@ -8,6 +8,7 @@
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import s from "./Users.module.scss";
+import Link from "next/link";
 
 interface UserPageProps {
   params: { netId: string };
@@ -23,6 +24,9 @@ export default async function UserPage({ params: { netId } }: UserPageProps) {
       <figure className={s.mainspace}></figure>
       <h2>Other Spaces</h2>
       <p>No spaces found.</p>
+      <div>
+        <Link href={`/profile/${user.id}`}>Profile</Link>
+      </div>
       <a href="/api/auth/logout">Logout</a>
     </article>
   );

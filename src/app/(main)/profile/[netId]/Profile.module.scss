@@ -1,4 +1,116 @@
-
 .container {
 	margin-top: 100px;
+}
+.profile_user {
+	/* text-align: center; */
+	margin: 0 auto;
+	max-width: 550px;
+	width: 100%;
+	// background: white;
+	/* display: flex; */
+}
+
+.formbold_main_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.formbold_form_wrapper {
+  margin: 0 auto;
+  max-width: 550px;
+  width: 100%;
+//   background: white;
+}
+
+.formbold_input_flex {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+.formbold_input_flex > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.formbold_textarea {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.formbold_form_input {
+  width: 100%;
+  padding-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid #DDE3EC;
+//   background: #FFFFFF;
+  font-weight: 500;
+  font-size: 16px;
+  color: #ffffff;
+  outline: none;
+  resize: none;
+}
+.formbold_form_input::placeholder {
+  color: #536387;
+}
+.formbold_form_input:focus {
+  border-color: #6A64F1;
+}
+.formbold_form_label {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  display: block;
+  margin-bottom: 18px;
+}
+.formbold_form_input:focus{
+  color: #6A64F1;
+}
+
+.formbold_filename_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+.formbold_filename {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  line-height: 24px;
+  color: #536387;
+}
+.formbold_filename svg {
+  cursor: pointer;
+}
+
+.formbold_btn {
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 12px 25px;
+  border: none;
+  font-weight: 500;
+  background-color: #6A64F1;
+  color: white;
+  cursor: pointer;
+//   margin-top: 25px;
+}
+
+.formbold_btn:hover {
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.formbold_btn_cancel {
+	font-size: 16px;
+	border-radius: 5px;
+	padding: 12px 25px;
+	border: none;
+	font-weight: 500;
+	background-color: #FF4D4F;
+	color: white;
+	cursor: pointer;
+	margin-left: 20px;
 }
