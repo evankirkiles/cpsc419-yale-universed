@@ -56,42 +56,53 @@ export default function ProfilePage({ params: { netId } }: ProfilePageProps) {
     <article className={styles.container}>
       <div>
         <section>
-          <h4>Update Profile</h4>
-          <br />
-          <br />
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>netId:</label>
-              <input id="fullName" type="text" value={user?.id} disabled />
+          <div className={styles.formbold_main_wrapper}>
+            <div className={styles.profile_user}>
+              <h2>Profile {user?.id}</h2>
             </div>
-            <br />
-            <div>
-              <label>Full Name:</label>
-              <input
-                type="text"
-                placeholder="Enter your your full name"
-                id="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
+          </div>
+          <div className={styles.formbold_main_wrapper}>
+            <div className={styles.formbold_form_wrapper}>
+              <form onSubmit={handleSubmit}>
+                <div className={styles.formbold_input_flex}>
+                  <div>
+                    <input className={styles.formbold_form_input} id="fullName" type="text" value={user?.id} disabled />
+                    <label htmlFor="fullName" className={styles.formbold_form_label}>netId:</label>
+                  </div>
+                </div>
+                <div className={styles.formbold_input_flex}>
+                  <div>
+                    <input
+                       className={styles.formbold_form_input}
+                      type="text"
+                      placeholder="Enter your your full name"
+                      id="fullName"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                    />
+                    <label htmlFor="fullName" className={styles.formbold_form_label}>Full Name:</label>
+                  </div>
+                </div>
+                <div className={styles.formbold_input_flex}>
+                  <div>
+                    <input
+                       className={styles.formbold_form_input}
+                      type="textarea"
+                      placeholder="Enter your bio"
+                      id="bio"
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                    />
+                    <label htmlFor="bio" className={styles.formbold_form_label}>Bio:</label>
+                  </div>
+                </div>
+                <div>
+                  <button className={styles.formbold_btn}type="submit" disabled={pending}>Update</button>
+                  <Link className={styles.formbold_btn_cancel} href={`/users/${user?.id}`}>Cancel</Link>
+                </div>                
+              </form>
             </div>
-            <br />
-            <div>
-              <label>Bio:</label>
-              <input
-                type="textarea"
-                placeholder="Enter your bio"
-                id="bio"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-              />
-            </div>
-            <br />
-            <button type="submit" disabled={pending}>
-              Update
-            </button>
-            <Link href="/">Cancel</Link>
-          </form>
+          </div>
         </section>
       </div>
     </article>

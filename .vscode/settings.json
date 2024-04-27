@@ -3,5 +3,6 @@
     "*": {
       "company": "Yale CPSC 419"
     }
-  }
+  },
+  "liveServer.settings.port": 5006
 }
