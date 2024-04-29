@@ -8,8 +8,19 @@ import Balancer from "react-wrap-balancer";
 import s from "./Page.module.scss";
 import cx from "classnames";
 import Link from "next/link";
+import prisma from "@/lib/prisma";
+import ImgixImage from "@/components/shared/Image";
 
-export default function Home() {
+export const revalidate = 60 * 60 * 24; // 24 hours
+
+export default async function Home() {
+  const space = await prisma.space.findFirst({
+    include: {
+      picture: true,
+      user: true,
+    },
+  });
+
   return (
     <article className={s.container}>
       <div className={cx(s.section, s.hero)}>
@@ -67,18 +78,28 @@ export default function Home() {
         </div>
         <figure className={s.featured}>
           <div className={s.featuredImage}>
-            <img src="" /> {/* TODO: Fill out this */}
+            {space ? (
+              <ImgixImage
+                src={space.picture.key}
+                width={space.picture.imageWidth}
+                height={space.picture.imageHeight}
+                alt={`Featured Space`}
+              />
+            ) : (
+              <img src="" />
+            )}
+            {/* TODO: Fill out this */}
           </div>
           <figcaption>
             <p>
               <strong>Featured Space</strong>
             </p>
             <p>
-              Evan Kirkiles
+              {space?.user.fullName || space?.user.id}
               <br />
-              Sim City Apartments
+              {space?.name || "Unspecified Location"}
               <br />
-              New Haven, CT 06511
+              New Haven, CT
             </p>
           </figcaption>
         </figure>
