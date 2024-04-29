@@ -14,109 +14,52 @@ export default async function AboutPage() {
         <hgroup>
           <h1>About</h1>
           <p>
-            <Balancer>How YaleVision works and came about</Balancer>
+            <Balancer>How YaleVision was created and functions today.</Balancer>
           </p>
         </hgroup>
         <p>
-          Lorem ipsum dolor sit amet consectetur. Scelerisque aliquet justo nisl
-          tincidunt non lacus sed. Sodales tellus dignissim pellentesque ut.
-          Scelerisque sollicitudin varius ornare dui adipiscing. Habitant mauris
-          morbi morbi enim. Dui tortor amet tortor eget rhoncus.
-        </p>
-        <p>
-          Augue ut sit egestas erat a risus. Orci neque augue cursus pharetra ut
-          curabitur tincidunt. Dictum amet morbi pulvinar in. Nunc nunc amet
-          integer pretium turpis pellentesque scelerisque. Aliquet lobortis
-          mattis dui tortor. Luctus in arcu nulla molestie.
-        </p>
-        <p>
-          Ornare iaculis sollicitudin ac proin viverra eu odio in. Elit posuere
-          egestas suspendisse etiam viverra mattis fusce lacus ipsum. Sed diam
-          felis sagittis quisque eget vestibulum morbi ornare urna. Suscipit
-          aenean eget quam malesuada condimentum non elementum. In elementum
-          tincidunt sed ultricies a. Velit justo velit etiam tincidunt sit magna
-          massa est.
-        </p>
-        <p>
-          Lacus ut sed odio nec iaculis dignissim pellentesque. Eu urna nulla
-          integer est diam sit semper massa. Vitae pellentesque potenti vitae
-          pretium justo facilisis viverra tempor. Mi mollis sed tellus mauris
-          rhoncus risus. Id ridiculus enim amet mi. Sit venenatis tortor mi
-          viverra urna elementum mattis risus nunc. Elit in tristique amet at
-          enim nisl pellentesque ut. In sollicitudin vulputate egestas cursus
-          felis nunc sit id iaculis. Commodo elementum purus in amet nec ac.
+          YaleVision is the final project for CPSC419 — Full Stack Web
+          Programming by Evan Kirkiles, Ngoc Bui, and Shan Ali. Inspired by
+          previous work in photogrammetry by some of our group members, we
+          decided to augment the standard CRUD app with a novel presentation of
+          web-based media.
         </p>
         <h2>Background</h2>
         <p>
-          Augue ut sit egestas erat a risus. Orci neque augue cursus pharetra ut
-          curabitur tincidunt. Dictum amet morbi pulvinar in. Nunc nunc amet
-          integer pretium turpis pellentesque scelerisque. Aliquet lobortis
-          mattis dui tortor. Luctus in arcu nulla molestie.
+          Photogrammetry is, generally, the process of creating 3D models from
+          2D images. In our case, however, we take photogrammetry to be the
+          LiDAR version provided by Polycam, using not pictures but rather a
+          depth map to create a 3D model. At set iterations while doing a
+          Polycam scan, your phone takes a depth-informed picture with its LiDAR
+          sensor to create a point cloud of the space. Once a basic point cloud
+          is built, the app then uses a meshing algorithm to create a 3D model,
+          with the actual pictures taken projected onto the geometry as
+          textures.
         </p>
         <p>
-          Ornare iaculis sollicitudin ac proin viverra eu odio in. Elit posuere
-          egestas suspendisse etiam viverra mattis fusce lacus ipsum. Sed diam
-          felis sagittis quisque eget vestibulum morbi ornare urna. Suscipit
-          aenean eget quam malesuada condimentum non elementum. In elementum
-          tincidunt sed ultricies a. Velit justo velit etiam tincidunt sit magna
-          massa est.
-        </p>
-        <p>
-          Lacus ut sed odio nec iaculis dignissim pellentesque. Eu urna nulla
-          integer est diam sit semper massa. Vitae pellentesque potenti vitae
-          pretium justo facilisis viverra tempor. Mi mollis sed tellus mauris
-          rhoncus risus. Id ridiculus enim amet mi. Sit venenatis tortor mi
-          viverra urna elementum mattis risus nunc. Elit in tristique amet at
-          enim nisl pellentesque ut. In sollicitudin vulputate egestas cursus
-          felis nunc sit id iaculis. Commodo elementum purus in amet nec ac.
+          The result is a (fairly large) textured 3D model of any object. While
+          these models are not perfect and often suffer from a large amount of
+          artifacting when a space does not receive a lot of coverage or light,
+          they communicate the idea of a space. The models also have a huge
+          number of polygons, making them only truly usable for static
+          backgrounds and unmoving environments—else calculations would run
+          slowly and the process of rigging or animating the mesh would be
+          painstaking on the side of the 3D modeler.
         </p>
         <h2>Tech Stack</h2>
         <p>
-          Augue ut sit egestas erat a risus. Orci neque augue cursus pharetra ut
-          curabitur tincidunt. Dictum amet morbi pulvinar in. Nunc nunc amet
-          integer pretium turpis pellentesque scelerisque. Aliquet lobortis
-          mattis dui tortor. Luctus in arcu nulla molestie.
+          YaleVision is built with Next.js on Vercel, chosen for ease-of-use and
+          the low price point, especially at this scale. For storage, we use AWS
+          S3, with our images being served through Imgix—allowing for image
+          resizing for responsive images and faster load times. We use Prisma to
+          manage our Vercel Postgres DB, and Lucia to manage our user sessions
+          which are authenticated through CAS.
         </p>
         <p>
-          Ornare iaculis sollicitudin ac proin viverra eu odio in. Elit posuere
-          egestas suspendisse etiam viverra mattis fusce lacus ipsum. Sed diam
-          felis sagittis quisque eget vestibulum morbi ornare urna. Suscipit
-          aenean eget quam malesuada condimentum non elementum. In elementum
-          tincidunt sed ultricies a. Velit justo velit etiam tincidunt sit magna
-          massa est.
-        </p>
-        <p>
-          Lacus ut sed odio nec iaculis dignissim pellentesque. Eu urna nulla
-          integer est diam sit semper massa. Vitae pellentesque potenti vitae
-          pretium justo facilisis viverra tempor. Mi mollis sed tellus mauris
-          rhoncus risus. Id ridiculus enim amet mi. Sit venenatis tortor mi
-          viverra urna elementum mattis risus nunc. Elit in tristique amet at
-          enim nisl pellentesque ut. In sollicitudin vulputate egestas cursus
-          felis nunc sit id iaculis. Commodo elementum purus in amet nec ac.
-        </p>
-        <h2>Outreach</h2>
-        <p>
-          Augue ut sit egestas erat a risus. Orci neque augue cursus pharetra ut
-          curabitur tincidunt. Dictum amet morbi pulvinar in. Nunc nunc amet
-          integer pretium turpis pellentesque scelerisque. Aliquet lobortis
-          mattis dui tortor. Luctus in arcu nulla molestie.
-        </p>
-        <p>
-          Ornare iaculis sollicitudin ac proin viverra eu odio in. Elit posuere
-          egestas suspendisse etiam viverra mattis fusce lacus ipsum. Sed diam
-          felis sagittis quisque eget vestibulum morbi ornare urna. Suscipit
-          aenean eget quam malesuada condimentum non elementum. In elementum
-          tincidunt sed ultricies a. Velit justo velit etiam tincidunt sit magna
-          massa est.
-        </p>
-        <p>
-          Lacus ut sed odio nec iaculis dignissim pellentesque. Eu urna nulla
-          integer est diam sit semper massa. Vitae pellentesque potenti vitae
-          pretium justo facilisis viverra tempor. Mi mollis sed tellus mauris
-          rhoncus risus. Id ridiculus enim amet mi. Sit venenatis tortor mi
-          viverra urna elementum mattis risus nunc. Elit in tristique amet at
-          enim nisl pellentesque ut. In sollicitudin vulputate egestas cursus
-          felis nunc sit id iaculis. Commodo elementum purus in amet nec ac.
+          On the frontend, we use Three.js to build all of the photogrammetry
+          scenes, powered by a fork of Evan&apos;s <code>web-worlding</code>{" "}
+          library which manages downloading of GLTF models for a space and the
+          character.
         </p>
       </div>
     </article>

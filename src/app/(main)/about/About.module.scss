@@ -13,9 +13,25 @@
   display: grid;
 
   & hgroup {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: calc(1 * var(--page-padding));
+    align-items: flex-end;
+
     & p {
-      font-size: 1.5em;
-      line-height: 1.3;
+      font-size: 1.2em;
+      line-height: 1.2;
+      margin-block-end: 2rem;
+      max-inline-size: 25ch;
+
+      & a {
+        text-underline-offset: 0.15em;
+        text-decoration: underline;
+      }
+
+      @media screen and (max-width: 1024px) {
+        max-inline-size: unset;
+      }
     }
   }
 

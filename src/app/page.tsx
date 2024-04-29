@@ -77,19 +77,20 @@ export default async function Home() {
           </ul>
         </div>
         <figure className={s.featured}>
-          <div className={s.featuredImage}>
-            {space ? (
+          {space ? (
+            <a href={`/spaces/${space.id}`} className={s.featuredImage}>
               <ImgixImage
                 src={space.picture.key}
                 width={space.picture.imageWidth}
                 height={space.picture.imageHeight}
                 alt={`Featured Space`}
               />
-            ) : (
+            </a>
+          ) : (
+            <div className={s.featuredImage}>
               <img src="" />
-            )}
-            {/* TODO: Fill out this */}
-          </div>
+            </div>
+          )}
           <figcaption>
             <p>
               <strong>Featured Space</strong>
