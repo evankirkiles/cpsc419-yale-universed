@@ -71,4 +71,4 @@ pnpm prisma migrate dev
 use react-hot-toast for notification
 use react-bootstrap for css form
 
-Space can be played at https://cpsc419-yale-universed.vercel.app/spaces/test.
+Hosted at https://cpsc419-yale-universed.vercel.app/
