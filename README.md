@@ -16,7 +16,6 @@ Yale in 3D—exploring student-curated spaces on and off campus.
 Powered by <strong>Three.js</strong> and <strong>Polycam</strong>, Yale Vision allows student submission of photogrammetry spaces on the web, with full desktop, mobile, and gamepad navigation. Physics are enabled through pre-processing of spaces and adding in physics collision boxes.
 </p>
 
-
 <div align="center">
 
 [Features](#features) •
@@ -30,7 +29,6 @@ Powered by <strong>Three.js</strong> and <strong>Polycam</strong>, Yale Vision a
 <img width="28.5%" alt="image" src="https://github.com/evankirkiles/cpsc419-yale-universed/assets/30581915/0d32bcd5-0ece-4162-addb-3bbf3b54a292">
 </div>
 
-
 ## Changelog
 
 MVP (March 10): Set up infrastructure for website, built style guide, created basic space to demonstrate capabilities. Space can be played at https://cpsc419-yale-universed.vercel.app/spaces/test.
@@ -40,17 +38,19 @@ MVP (March 10): Set up infrastructure for website, built style guide, created ba
 Todo.
 
 | Feature | Description |
-| --- |--- |
-| | |
+| ------- | ----------- |
+|         |             |
 
 ## Development
 
-To develop locally, clone this repository and hook it into the Supabase backend by setting your environment variables in `.env.local`.
+To develop locally, clone this repository and run commands below
 
 Create new database
+
 ```bash
 pnpm prisma generate
 ```
+
 Run project
 
 ```bash
@@ -62,7 +62,7 @@ pnpm i
 pnpm dev
 ```
 
-migrate database before running 
+migrate database before running
 
 ```bash
 pnpm prisma migrate dev
@@ -70,3 +70,5 @@ pnpm prisma migrate dev
 
 use react-hot-toast for notification
 use react-bootstrap for css form
+
+Space can be played at https://cpsc419-yale-universed.vercel.app/spaces/test.
